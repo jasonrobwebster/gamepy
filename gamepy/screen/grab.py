@@ -2,6 +2,7 @@
 Grabs, processes and save an image from the screen
 """
 
+import os
 from PIL import Image, ImageGrab
 
 def preprocess(image, width=800, height=None, grayscale=True):
@@ -46,15 +47,19 @@ def grab_image(process=True, bbox=None, **kwargs):
     return image
 
 
-def save_screen(file, process=True, bbox=None, **kwargs):
+def save_screen(file=None, process=True, bbox=None, **kwargs):
     """
-    Save the screen to the file location.
+    Save the screen to the file location. Returns the image as PIL Image.
     process: preprocesses the image before saving
     bbox: (left, top, width, height) bounding box of the screen to save
     kwargs: keyword arguments for preprocess (width, height, grayscale)
     """
     image = grab_image(process, bbox, **kwargs)
 
-    image.save(file)
+    if file is not None:
+        base, name = os.path.split(file)
+        if os.path.exists(base) is False:
+            os.makedirs(base)
+        image.save(file)
 
     return image
