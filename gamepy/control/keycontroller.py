@@ -7,8 +7,9 @@ from gamepy.record import KeyRecorder
 from pynput.keyboard import Key
 from gamepy.core import save_screen, string_to_key, key_to_string
 from datetime import datetime
-from time import sleep
+from time import sleep, time
 import random
+import traceback
 
 __all__ = [
     'KeyController'
@@ -97,10 +98,15 @@ class KeyController:
 
                 # call the function
                 func = self.func
-                args = self.args
-                kwargs = self.kwargs
+                func_args = self.args
+                func_kwargs = self.kwargs
 
-                func(img, *args, **kwargs)
+                try:
+                    func(img, *func_args, **func_kwargs)
+                except:
+                    traceback.print_exc()
+                    self.terminate = True
+                    break
                 
         self.key_recorder.stop()
 

@@ -9,7 +9,7 @@ __all__ = [
     'save_screen'
 ]
 
-def preprocess(image, width=800, height=None, grayscale=True):
+def preprocess(image, width=None, height=None, grayscale=True):
     """
     Preprocesses an image by scaling it to the correct width and height.
     """
@@ -26,16 +26,16 @@ def preprocess(image, width=800, height=None, grayscale=True):
     elif height is None and width is None:
         # make them the image size
         width, height = (w, h)
-    #end if
+
 
     if (w != width) and (h != height):
         image = image.resize(size=(width, height))
-    #end if
+
 
     # convert the image to grayscale
     if grayscale:
         image = image.convert(mode='L')
-    #end if
+
     return image
 
 

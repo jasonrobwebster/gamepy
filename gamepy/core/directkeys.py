@@ -147,18 +147,17 @@ def press_key(key):
     key: String, Key, KeyCode
         The key to press. Can be a string, like 'w', or a pynput Key or KeyCode.
     """
-    if isinstance(string, Key):
+    if isinstance(key, Key):
         key = Key.name
-    if isinstance(string, KeyCode):
+    if isinstance(key, KeyCode):
         key = str(key)
-    
     if not isinstance(key, str):
         raise ValueError('key must be of type str, Key or KeyCode, got %s' %key)
     
     key = key.upper()
+    key_hex_code = dk.get(key)
 
-    if hasattr(dk, key):
-        key_hex_code = dk.get(key)
+    if key_hex_code is not None:
         _press_key(key_hex_code)
     else:
         raise ValueError('key is not a valid key, got %s' %key)
@@ -174,18 +173,17 @@ def release_key(key):
     key: String, Key, KeyCode
         The key to press. Can be a string, like 'w', or a pynput Key or KeyCode.
     """
-    if isinstance(string, Key):
+    if isinstance(key, Key):
         key = Key.name
-    if isinstance(string, KeyCode):
+    if isinstance(key, KeyCode):
         key = str(key)
-    
     if not isinstance(key, str):
         raise ValueError('key must be of type str, Key or KeyCode, got %s' %key)
     
     key = key.upper()
+    key_hex_code = dk.get(key)
 
-    if hasattr(dk, key):
-        key_hex_code = dk.get(key)
+    if key_hex_code is not None:
         _release_key(key_hex_code)
     else:
         raise ValueError('key is not a valid key, got %s' %key)
