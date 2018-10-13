@@ -1,6 +1,4 @@
-"""
-Grabs, processes, and saves an image from the screen
-"""
+# Grabs, processes, and saves an image from the screen
 
 import os
 from PIL import Image, ImageGrab
@@ -11,7 +9,21 @@ __all__ = [
 
 def preprocess(image, width=None, height=None, grayscale=True):
     """
-    Preprocesses an image by scaling it to the correct width and height.
+    Preprocesses an image by scaling it to the given width and height.
+    If only the width or height is given, will scale the image to maintain
+    the aspect ratio.
+    
+    Params
+    ------
+    
+    width: int (optional)
+        The width of the final image.
+        
+    height: int (optional)
+        The height of the final image
+    
+    grayscale: Boolean (optional)
+        Whether to convert the image to grayscale. Default is True.
     """
     assert isinstance(image, Image.Image)
 
@@ -54,9 +66,18 @@ def grab_image(process=True, bbox=None, **kwargs):
 def save_screen(file=None, process=True, bbox=None, **kwargs):
     """
     Save the screen to the file location. Returns the image as PIL Image.
-    process: preprocesses the image before saving
-    bbox: (left, top, width, height) bounding box of the screen to save
-    kwargs: keyword arguments for preprocess (width, height, grayscale)
+    
+    Params
+    ------
+    
+    process: Boolean
+        preprocesses the image before saving
+        
+    bbox: tuple (left, top, width, height) 
+        bounding box of the screen to save
+        
+    kwargs: keyword arguments
+        passed to preprocess function, can include width, height, and grayscale
     """
     image = grab_image(process, bbox, **kwargs)
 
