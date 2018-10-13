@@ -1,4 +1,4 @@
-"""Core functions of gamepy"""
+# utility functions
 
 from pynput.keyboard import Key, KeyCode
 
