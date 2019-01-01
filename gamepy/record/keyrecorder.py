@@ -199,7 +199,7 @@ class Recorder:
 
         self.key_recorder = KeyRecorder(play_keys, pause_keys, terminate_keys, start_keys)
 
-    def record(self, file, csv_name = 'record.csv', remove_old=True, wait_time=1/30, **kwargs):
+    def record(self, file, csv_name = 'record.csv', remove_old=False, wait_time=1/30, **kwargs):
         """
         Records the screen in intervals given by wait_time. Associates a screen with a key stroke.
 
@@ -220,11 +220,22 @@ class Recorder:
         # which then constructs the base_dir, image base name, format, etc.
         # These should all be seperate params.
         base, name = os.path.split(file)
-        print(base,name)
         if not os.path.exists(base):
             os.makedirs(base)
         image_name, fmt = name.split('.')
         index = 1
+        if remove_old == False:
+            # get the last image number in the list of images
+            for root, dirs, files in os.walk(base):
+                if root == base:
+                    for filename in files:
+                        name, file_format = filename.split('.')
+                        if file_format != fmt:
+                            continue
+                        number = name.strip(image_name)
+                        index = max(index, int(number))
+            index = index + 1
+            print('Found %d previous training images' %(index-1))
 
         csv_dir = base + '/' + csv_name
         if os.path.exists(csv_dir) and remove_old is True:
@@ -233,10 +244,12 @@ class Recorder:
         csv_file = open(csv_dir, 'a', newline='')
         csv_writer = csv.writer(csv_file)
 
-        # write the header
         play_keys = self.key_recorder.profile.play_keys
         key_names = list(map(key_to_string, play_keys))
-        csv_writer.writerow(['Directory', *key_names] )
+
+        # write the header if we need a new file
+        if remove_old is True or os.path.exists(csv_dir) is False:
+            csv_writer.writerow(['Directory', *key_names] )
 
         last_time = datetime.now()
         self.key_recorder.start()
