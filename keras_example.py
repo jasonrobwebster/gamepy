@@ -6,8 +6,14 @@ from gamepy import press_key, release_key
 from keras.models import load_model
 from keras.preprocessing.image import img_to_array, load_img
 
-model = load_model('C:/Data/Games/Burnout/models/model_vgg_v3.h5')
+model = load_model('C:/Data/Games/Burnout/Models/inception_model.h5')
 model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+
+###################################################################################################
+# We first create a function that will be fed to our KeyController class.
+# This function will take the screen as an input, and output a prediction of which key to press.
+# The input screen is fed through to a neural network, which generates our prediction.
+###################################################################################################
 
 def predict_key(img):
     """Feeds an image to a neural network. Maps the neural net's prediction to
@@ -21,7 +27,7 @@ def predict_key(img):
     # preprocess image
     img = img_to_array(img)/255.
 
-    if img.shape[2] == 1:
+    if img.shape[-1] == 1:
         #last channel is wrong size
         new_img = np.zeros([*img.shape[0:2], 3])
         for i in range(3):
@@ -90,11 +96,12 @@ def predict_key(img):
         release_key('right')
         release_key('down')
 
-# load the keycontroller, whose input is a function that takes
+###################################################################################################
+# Load the keycontroller, whose input is a function that takes
 # the screen as an input image and produces key_presses
+###################################################################################################
+
 controller = gamepy.KeyController(predict_key)
 
-large_bbox = [0,0,1920,1028] # my screen size
-
 # activate the controller
-controller.control(bbox=large_bbox, height=112)
+controller.control(height=299, grayscale=False)
