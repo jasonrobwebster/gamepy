@@ -6,7 +6,7 @@ from gamepy import press_key, release_key
 from keras.models import load_model
 from keras.preprocessing.image import img_to_array, load_img
 
-model = load_model('C:/Data/Games/Burnout/Models/inception_model.h5')
+model = load_model('./Burnout/Models/inception_model.h5')
 model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
 
 ###################################################################################################
