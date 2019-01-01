@@ -5,7 +5,7 @@ from gamepy import press_key, release_key
 from keras.models import load_model
 from keras.preprocessing.image import img_to_array, load_img
 
-model = load_model('C:/Data/Games/Burnout/models/model_vgg_v2.h5')
+model = load_model('C:/Data/Games/Burnout/models/model_vgg_v3.h5')
 model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
 
 def predict_key(img):
