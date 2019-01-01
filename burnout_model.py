@@ -19,15 +19,8 @@ model.compile(optimizer='Adam', loss='categorical_crossentropy', metrics=['accur
 
 print(model.summary())
 
-# Train the model using the data we recorded
+# Save the  model
 
-base_path = './Burnout/'
-file_path = os.path.join(base_path, 'record.csv')
-
-data = pd.read_csv(file_path)
-
-data.head()
-
-# Save the trained model
-
+if not os.path.exists('./Burnout/Models/'):
+    os.makedirs('./Burnout/Models/')
 save_model(model, './Burnout/Models/inception_model.h5')
