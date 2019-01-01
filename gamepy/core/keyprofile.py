@@ -1,6 +1,5 @@
-"""
-Handles key profiles.
-"""
+# Handles key profiles.
+
 from pynput.keyboard import Key, KeyCode
 
 __all__ = [
@@ -9,16 +8,24 @@ __all__ = [
 
 class KeyProfile:
     """
-    Class that controls key profiles.
+    Class that controls key profiles. A key profile determines which key
+    presses should start, pause, or terminate a recording session, and 
+    which keys should be monitored during game time.
 
     Parameters
     ==========
 
     play_keys: list of keys
+        Key strokes to be monitored during gameplay, e.g. WASD
 
     pause_keys: list of keys that cause a pause
+        Key strokes that terminate a pause a recording session
 
-    terminate_keys: list keys that cause a terminate
+    terminate_keys: list of keys
+        Key strokes that terminate a recording session
+        
+    start_keys: list of keys
+        Key strokes that begin a recording session
     """
 
     def __init__(self, play_keys, pause_keys, terminate_keys, start_keys):

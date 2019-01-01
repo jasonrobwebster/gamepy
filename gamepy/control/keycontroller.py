@@ -1,7 +1,4 @@
-"""
-Specific class for the keras model I trained.
-Very Janky, don't use
-"""
+# defines a class that feeds the screen as an input image to a function that controls a game
 
 from gamepy.record import KeyRecorder
 from pynput.keyboard import Key
@@ -21,6 +18,10 @@ class KeyController:
     """
 
     def __init__(self, func, *args, **kwargs):
+        """Keyboard controller class. Accepts as input a function 
+        that takes an image of the screen as input. Typically
+        a function that produces key-strokes given the state
+        of the screen."""
         if not callable(func):
             raise ValueError('Function must be callable. Got %s' %func)
         self.func = func

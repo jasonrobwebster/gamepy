@@ -1,3 +1,4 @@
+# demonstrates an of a neural network controlling a game
 
 import gamepy
 import numpy as np
@@ -9,6 +10,15 @@ model = load_model('C:/Data/Games/Burnout/models/model_vgg_v3.h5')
 model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
 
 def predict_key(img):
+    """Feeds an image to a neural network. Maps the neural net's prediction to
+    a key press.
+    
+    Params
+    ------
+    
+    img: opencv image
+        Image from which a key-press prediction should be made"""
+    # preprocess image
     img = img_to_array(img)/255.
 
     if img.shape[2] == 1:
@@ -19,15 +29,18 @@ def predict_key(img):
         img = new_img
         del new_img
 
-    #load the mask
+    # loads a mask for removing unwanted parts from the image 
+    # (in this case, song titles and speedometer)
     mask = load_img('C:/Data/Games/Burnout/processed/mask.png')
     img = img*mask
 
     img = img.reshape(1, *img.shape)
-
+    
+    # predict the key press to be made
     key = model.predict(img)[0].argmax()
     print(key)
-
+    
+    # map the prediction to an actual keystroke
     if key == 0:
         # fw
         press_key('up')
@@ -77,9 +90,11 @@ def predict_key(img):
         release_key('right')
         release_key('down')
 
-
+# load the keycontroller, whose input is a function that takes
+# the screen as an input image and produces key_presses
 controller = gamepy.KeyController(predict_key)
 
+large_bbox = [0,200,1440,900] # my screen size
 
-large_bbox = [0,200,1440,900]
+# activate the controller
 controller.control(bbox=large_bbox, height=112)

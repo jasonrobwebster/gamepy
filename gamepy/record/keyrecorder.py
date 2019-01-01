@@ -1,6 +1,4 @@
-"""
-Records the screen in a given number of fixed intervals until terminated.
-"""
+# Records the screen in a given number of fixed intervals until terminated.
 
 import os
 import csv
@@ -74,6 +72,24 @@ class KeyRecorder:
         self.__profile = profile
 
     def __init__(self, play_keys, pause_keys, terminate_keys, start_keys):
+        """Initializes the key recorder. Monitors key strokes and associates
+        them with a screengrab image. 
+        
+        Params
+        ------
+        
+        play_keys: list of keys
+            The keys to monitor during gameplay, e.g. ['W', 'A', 'S', 'D']
+        
+        pause_keys: list of keys
+            The keys that pause a recording session
+        
+        terminate_keys: list of keys
+            The keys that terminate the recording session
+        
+        start_keys: list of keys
+            Keys that start the recording session
+        """
         self.__plays = np.zeros(len(play_keys), dtype=bool)
         self.__paused = np.zeros(len(pause_keys), dtype=bool)
         self.__terminated = np.zeros(len(terminate_keys), dtype=bool)
@@ -96,9 +112,7 @@ class KeyRecorder:
             self.listener.stop()
     
     def on_press(self, key_press):
-        """
-        On_press method for the listener
-        """
+        """On_press method for the listener"""
         play_keys = self.profile.play_keys
         pause_keys = self.profile.pause_keys
         terminate_keys = self.profile.terminate_keys
@@ -121,9 +135,7 @@ class KeyRecorder:
                 self.__started[index] = 1
 
     def on_release(self, key_release):
-        """
-        On_release method for the listener
-        """
+        """On_release method for the listener"""
         play_keys = self.profile.play_keys
         pause_keys = self.profile.pause_keys
         terminate_keys = self.profile.terminate_keys
@@ -146,12 +158,28 @@ class KeyRecorder:
                 self.__started[index] = 0
     
 class Recorder:
-    """
-    Recorder object. Records the screen.
-    """
+    """Records the screen and associates a screen image with a key stroke."""
     recorders = 0
 
     def __init__(self, play_keys, pause_keys='pause', terminate_keys='end', start_keys='home'):
+        """Initializes the screen recorder. Monitors key strokes and associates
+        them with a screengrab image. 
+        
+        Params
+        ------
+        
+        play_keys: list of keys
+            The keys to monitor during gameplay, e.g. ['W', 'A', 'S', 'D']
+        
+        pause_keys: list of keys
+            The keys that pause a recording session
+        
+        terminate_keys: list of keys
+            The keys that terminate the recording session
+        
+        start_keys: list of keys
+            Keys that start the recording session
+        """
         self.paused = False
         self.started = False
         self.terminate = False
@@ -173,10 +201,10 @@ class Recorder:
 
     def record(self, file, csv_name = 'record.csv', remove_old=True, wait_time=1/30, **kwargs):
         """
-        Records the screen in intervals given by wait_time 
+        Records the screen in intervals given by wait_time. Associates a screen with a key stroke.
 
-        Parameters
-        ==========
+        Params
+        ------
 
         file: File path
 
