@@ -245,6 +245,10 @@ class Recorder:
             if self.key_recorder.is_started == True:
                 self.started = True
                 print('Starting recording...')
+            if self.key_recorder.is_terminated:
+                self.terminate = True
+                print('Terminating recording...')
+                break
 
         while self.started and not self.terminate:
             time = datetime.now()
@@ -265,6 +269,10 @@ class Recorder:
                     self.paused = False
                     print('Restarting recording...')
                     sleep(1)
+                if self.key_recorder.is_terminated:
+                    self.terminate = True
+                    print('Terminating recording...')
+                    break
 
             if secs > wait_time and not self.paused:
                 last_time = datetime.now()

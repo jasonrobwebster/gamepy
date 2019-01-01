@@ -31,8 +31,8 @@ def predict_key(img):
 
     # loads a mask for removing unwanted parts from the image 
     # (in this case, song titles and speedometer)
-    mask = load_img('C:/Data/Games/Burnout/processed/mask.png')
-    img = img*mask
+    # mask = load_img('C:/Data/Games/Burnout/processed/mask.png')
+    # img = img*mask
 
     img = img.reshape(1, *img.shape)
     
@@ -94,7 +94,7 @@ def predict_key(img):
 # the screen as an input image and produces key_presses
 controller = gamepy.KeyController(predict_key)
 
-large_bbox = [0,200,1440,900] # my screen size
+large_bbox = [0,0,1920,1028] # my screen size
 
 # activate the controller
 controller.control(bbox=large_bbox, height=112)
