@@ -36,30 +36,36 @@ class KeyController:
         pause_keys = [Key.pause]
         terminate_keys = [Key.end]
         start_keys = [Key.home]
-        self.key_recorder = KeyRecorder(play_keys, pause_keys, terminate_keys, start_keys)
+        self.key_recorder = KeyRecorder(play_keys, start_keys=start_keys, pause_keys=pause_keys, terminate_keys=terminate_keys)
 
-    def set_control_keys(self, start='home', pause='pause', terminate='end'):
+    def set_control_keys(self, start_keys='home', pause_keys='pause', terminate_keys='end'):
         """Sets the start, pause, and terminate keys for the controller.
         
         Parameters
         ==========
 
-        start: String, List
-            The start key or list of keys
+        start_keys: String, List
+            The keys used to start the controller
+
+        pause_keys: String, List
+            The keys used to pause the controller
+        
+        terminate_keys: String, List
+            The keys used to terminate the controller
         """
 
-        if not isinstance(start, list):
-            start = [start]
-        if not isinstance(pause, list):
-            pause = [pause]
-        if not isinstance(terminate, list):
-            terminate = [terminate]
+        if not isinstance(start_keys, list):
+            start_keys = [start_keys]
+        if not isinstance(pause_keys, list):
+            pause_keys = [pause_keys]
+        if not isinstance(terminate_keys, list):
+            terminate_keys = [terminate_keys]
 
-        start = list(map(string_to_key, start))
-        pause = list(map(string_to_key, pause))
-        terminate = list(map(string_to_key, terminate))
+        start_keys = list(map(string_to_key, start_keys))
+        pause_keys = list(map(string_to_key, pause_keys))
+        terminate_keys = list(map(string_to_key, terminate_keys))
 
-        self.key_recorder = KeyRecorder([], pause, terminate, start)
+        self.key_recorder = KeyRecorder([], start_keys=start_keys, pause_keys=pause_keys, terminate_keys=terminate_keys)
 
     
     def control(self, wait_time=1/60, **kwargs):

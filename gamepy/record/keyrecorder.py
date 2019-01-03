@@ -71,7 +71,7 @@ class KeyRecorder:
         assert isinstance(profile, KeyProfile)
         self.__profile = profile
 
-    def __init__(self, play_keys, pause_keys, terminate_keys, start_keys):
+    def __init__(self, play_keys, start_keys='home', pause_keys='pause', terminate_keys='end'):
         """Initializes the key recorder. Monitors key strokes and associates
         them with a screengrab image. 
         
@@ -197,7 +197,7 @@ class Recorder:
         terminate_keys = list(map(string_to_key, terminate_keys))
         start_keys = list(map(string_to_key, start_keys))
 
-        self.key_recorder = KeyRecorder(play_keys, pause_keys, terminate_keys, start_keys)
+        self.key_recorder = KeyRecorder(play_keys, start_keys=start_keys, pause_keys=pause_keys, terminate_keys=terminate_keys)
 
     def record(self, file, csv_name = 'record.csv', remove_old=False, wait_time=1/30, **kwargs):
         """
