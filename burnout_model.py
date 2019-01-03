@@ -14,26 +14,10 @@ from keras.models import Model, save_model
 from keras.layers import Dense, Flatten, Input, Conv2D, MaxPooling2D, Dropout, BatchNormalization
 from keras.applications import InceptionV3
 
-"""
-import tensorflow as tf
-from keras.backend.tensorflow_backend import set_session
-config = tf.ConfigProto()
-config.gpu_options.per_process_gpu_memory_fraction = 0.5
-config.gpu_options.visible_device_list = "0"
-set_session(tf.Session(config=config))
-"""
 
 ###################################################################################################
 # MODEL DEFINITION
 ###################################################################################################
-"""
-inception = InceptionV3(include_top=False, input_shape=(299, 532, 3))
-flat = Flatten(name='flatten')(inception.output)
-out = Dense(9, activation='softmax', name='output')(flat)
-
-model = Model(inception.input, out)
-model.compile(optimizer='Adam', loss='categorical_crossentropy', metrics=['accuracy'])
-"""
 
 x = Input(shape=(299,532,3), name='Input')
 ## block1
