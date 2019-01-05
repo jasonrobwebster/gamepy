@@ -111,3 +111,6 @@ venv.bak/
 
 # test folder
 test/
+
+# burnout folder
+Burnout/

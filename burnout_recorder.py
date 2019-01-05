@@ -8,4 +8,4 @@ rec = Recorder(['up','left','down','right'], start_keys=start_keys, pause_keys=p
 
 print('Press %s to start the recording, %s to pause the recording, and %s to terminate the recording.' %(str(start_keys), str(pause_keys), str(terminate_keys)))
 
-rec.record('./test/image.png', process=True, height=299, grayscale=False)
+rec.record('./Burnout/image.png', process=True, height=299, width=532, grayscale=False)

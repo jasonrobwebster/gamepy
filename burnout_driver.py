@@ -1,12 +1,10 @@
-# demonstrates an of a neural network controlling a game
-
 import gamepy
 import numpy as np
 from gamepy import press_key, release_key
 from keras.models import load_model
 from keras.preprocessing.image import img_to_array, load_img
 
-model = load_model('./Burnout/Models/inception_model.h5')
+model = load_model('./Burnout/Models/vgg_model.h5')
 model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
 
 ###################################################################################################
@@ -23,7 +21,8 @@ def predict_key(img):
     ------
     
     img: opencv image
-        Image from which a key-press prediction should be made"""
+        Image from which a key-press prediction should be made
+    """
     # preprocess image
     img = img_to_array(img)/255.
 
@@ -46,53 +45,59 @@ def predict_key(img):
     key = model.predict(img)[0].argmax()
     print(key)
     
-    # map the prediction to an actual keystroke
+    # map the prediction to a keystroke
     if key == 0:
-        # fw
+        # up
         press_key('up')
         release_key('left')
         release_key('right')
         release_key('down')
     elif key == 1:
-        # fr
+        # up left
         press_key('up')
-        release_key('left')
-        press_key('right')
+        press_key('left')
+        release_key('right')
         release_key('down')
     elif key == 2:
-        # rt
+        # left
         release_key('up')
-        release_key('left')
-        press_key('right')
+        press_key('left')
+        release_key('right')
         release_key('down')
     elif key == 3:
-        # br
+        # down left
         release_key('up')
-        release_key('left')
-        press_key('right')
+        press_key('left')
+        release_key('right')
         press_key('down')
     elif key == 4:
-        # bw
+        # down
         release_key('up')
         release_key('left')
         release_key('right')
         press_key('down')
     elif key == 5:
-        # bl
+        # down right
         release_key('up')
-        press_key('left')
-        release_key('right')
+        release_key('left')
+        press_key('right')
         press_key('down')
     elif key == 6:
-        # lt
+        # right
         release_key('up')
-        press_key('left')
-        release_key('right')
+        release_key('left')
+        press_key('right')
         release_key('down')
     elif key == 7:
-        # fl
+        # up right
         press_key('up')
-        press_key('left')
+        release_key('left')
+        press_key('right')
+        release_key('down')
+    elif key == 8:
+        # no key press
+        release_key('up')
+        release_key('left')
         release_key('right')
         release_key('down')
 
@@ -101,7 +106,14 @@ def predict_key(img):
 # the screen as an input image and produces key_presses
 ###################################################################################################
 
+start_keys='home'
+pause_keys='pause'
+terminate_keys='end'
+
 controller = gamepy.KeyController(predict_key)
+controller.set_control_keys(start_keys=start_keys, pause_keys=pause_keys, terminate_keys=terminate_keys)
+
+print('Press %s to start the controller, %s to pause the controller, and %s to terminate the controller.' %(str(start_keys), str(pause_keys), str(terminate_keys)))
 
 # activate the controller
 controller.control(height=299, grayscale=False)
